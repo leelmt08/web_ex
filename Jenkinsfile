@@ -1,6 +1,6 @@
 // Obtaining an Artifactory server instance defined in Jenkins:
 			
-def server = Artifactory.server 'Artifactory Version 4.15.0'
+def server = Artifactory.server 'artifactory-oss-6.12.1'
 
 		 //If artifactory is not defined in Jenkins, then create on:
 		// def server = Artifactory.newServer url: 'Artifactory url', username: 'username', password: 'password'
@@ -15,41 +15,37 @@ pipeline {
 
 	tools {
 		jdk "Java-1.8"
-		maven "Maven-3.5.3"
+		maven "maven_3_6_2"
 	}
 
     stages {
         stage('Clone sources'){
             steps {
-                git url: 'https://github.com/Anusha-DevOp/web_ex'
+                git url: 'https://github.com/leelmt08/web_ex/'
             }
         }
+	    
+	       stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
+        withSonarQubeEnv('sonar7.5') { 
+          bat "${mvnHome}/bin/mvn sonar:sonar"
+        }
+    }
 
-     	stage('SonarQube analysis') {
-	     steps {
-		//Prepare SonarQube scanner enviornment
-		withSonarQubeEnv('SonarQube6.3') {
-		   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
-		}
-	      }
-	}
-
-//	stage('Quality Gate') {
-//		steps {
-//			timeout(time: 1, unit: 'HOURS') {
-			//Parameter indicates wether to set pipeline to UNSTABLE if Quality Gate fails
-		        // true = set pipeline to UNSTABLE, false = don't
-			// Requires SonarQube Scanner for Jenkins 2.7+
-//			waitForQualityGate abortPipeline: false
-//		       }
-//		 }
-//	}
+    stage("Quality Gate Statuc Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }    
 
 	stage('Artifactory configuration') {
 		
 	   steps {
 		script {
-			rtMaven.tool = 'Maven-3.5.3' //Maven tool name specified in Jenkins configuration
+			rtMaven.tool = 'maven_3_6_2' //Maven tool name specified in Jenkins configuration
 		
 			rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server //Defining where the build artifacts should be deployed to
 			
