@@ -25,22 +25,42 @@ pipeline {
             }
         }
 	    
-	       stage('SonarQube Analysis') {
-        def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
-        withSonarQubeEnv('sonar7.5') { 
-          bat "${mvnHome}/bin/mvn sonar:sonar"
-        }
-    }
+	      // stage('SonarQube Analysis') {
+        //def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
+      //  withSonarQubeEnv('sonar7.5') { 
+        //  bat "${mvnHome}/bin/mvn sonar:sonar"
+       // }
+   // }
+	    
+	       	stage('SonarQube analysis') {
+	     steps {
+		//Prepare SonarQube scanner enviornment
+		withSonarQubeEnv('sonar7.5') {
+		   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+		}
+	      }
+	}
 
-    stage("Quality Gate Status Check"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-      }    
+    //stage("Quality Gate Status Check"){
+          //timeout(time: 1, unit: 'HOURS') {
+           //   def qg = waitForQualityGate()
+            //  if (qg.status != 'OK') {
+               //                      error "Pipeline aborted due to quality gate failure: ${qg.status}"
+             // }
+       //   }
+     // }    
 
+	    
+	    //	stage('Quality Gate') {
+//		steps {
+//			timeout(time: 1, unit: 'HOURS') {
+			//Parameter indicates wether to set pipeline to UNSTABLE if Quality Gate fails
+		        // true = set pipeline to UNSTABLE, false = don't
+			// Requires SonarQube Scanner for Jenkins 2.7+
+//			waitForQualityGate abortPipeline: false
+//		       }
+//		 }
+//	}
 	stage('Artifactory configuration') {
 		
 	   steps {
