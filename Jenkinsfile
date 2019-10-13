@@ -13,10 +13,10 @@ def buildInfo
 pipeline {
     agent any
 
-	tools {
-		jdk "Java-1.8"
-		maven "maven_3_6_2"
-	}
+	//tools {
+		//jdk "Java-1.8"
+		//maven "maven_3_6_2"
+	//}
 
     stages {
         stage('Clone sources'){
@@ -32,7 +32,7 @@ pipeline {
         }
     }
 
-    stage("Quality Gate Statuc Check"){
+    stage("Quality Gate Status Check"){
           timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
