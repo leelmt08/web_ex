@@ -14,7 +14,7 @@ pipeline {
     agent any
 
 	tools {
-		jdk "Java-1.8"
+		jdk "jdk1.8"
 		maven "maven_3_6_2"
 	}
 
@@ -25,30 +25,30 @@ pipeline {
             }
         }
 	    
-	      stage('SonarQube Analysis') {
+	     // stage('SonarQube Analysis') {
         
-        withSonarQubeEnv('sonar7.5') { 
-         bat "${mvnHome}/bin/mvn sonar:sonar"
-        }
-   }
-	    
-	      	//stage('SonarQube analysis') {
-	   //steps {
+      //  withSonarQubeEnv('sonar7.5') { 
+       //  bat "${mvnHome}/bin/mvn sonar:sonar"
+      //  }
+  // }
+	  
+     	stage('SonarQube analysis') {
+	     steps {
 		//Prepare SonarQube scanner enviornment
-		//withSonarQubeEnv('sonar7.5') {
-		 //  bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
-		//}
-	    //  }
-	//}
-
-    //stage("Quality Gate Status Check"){
-          //timeout(time: 1, unit: 'HOURS') {
-           //   def qg = waitForQualityGate()
-            //  if (qg.status != 'OK') {
-               //                      error "Pipeline aborted due to quality gate failure: ${qg.status}"
-             // }
-       //   }
-     // }    
+		withSonarQubeEnv('SonarQube6.3') {
+		   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+		}
+	      }
+	}	    
+    
+	    stage("Quality Gate Status Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }    
 
 	    
 	    //	stage('Quality Gate') {
