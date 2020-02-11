@@ -1,14 +1,14 @@
 // Obtaining an Artifactory server instance defined in Jenkins:
 			
-def server = Artifactory.server 'artifactory-oss-6.12.1'
+//def server = Artifactory.server 'artifactory-oss-6.12.1'
 
 		 //If artifactory is not defined in Jenkins, then create on:
 		// def server = Artifactory.newServer url: 'Artifactory url', username: 'username', password: 'password'
 
 //Create Artifactory Maven Build instance
-def rtMaven = Artifactory.newMavenBuild()
-def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
-def buildInfo
+//def rtMaven = Artifactory.newMavenBuild()
+//def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
+//def buildInfo
 
 pipeline {
     agent any
