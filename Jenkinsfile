@@ -77,8 +77,8 @@ def server = Artifactory.server 'artifactory-oss-6.12.1'
 		
 	   steps {
 		script {
-			rtMaven.tool = 'maven_3_6_2' //Maven tool name specified in Jenkins configuration
-		
+			//rtMaven.tool = 'maven_3_6_2' //Maven tool name specified in Jenkins configuration
+		def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
 			rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local' //Defining where the build artifacts should be deployed to
 			
 			rtMaven.resolver releaseRepo:'libs-release', snapshotRepo: 'libs-snapshot' //Defining where Maven Build should download its dependencies from
