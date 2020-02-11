@@ -13,10 +13,10 @@
 pipeline {
     agent any
 
-	tools {
-		jdk "jdk1.8"
-		maven "maven_3_6_2"
-	}
+	//tools {
+		//jdk "jdk1.8"
+		//maven "maven_3_6_2"
+	//}
 
     stages {
         stage('Clone sources'){
@@ -25,12 +25,12 @@ pipeline {
             }
         }
 	    
-	     stage('SonarQube Analysis') {
-        
-      withSonarQubeEnv('sonar7.5') { 
-         bat "${mvnHome}/bin/mvn sonar:sonar"
+	  stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'maven_3_6_2', type: 'maven'
+        withSonarQubeEnv('sonar7.5') { 
+          bat "${mvnHome}/bin/mvn sonar:sonar"
         }
-  }
+    }
 	  
      	//stage('SonarQube analysis') {
 	  //   steps {
