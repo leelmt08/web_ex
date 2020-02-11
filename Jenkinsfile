@@ -79,9 +79,9 @@
 		script {
 			rtMaven.tool = 'maven_3_6_2' //Maven tool name specified in Jenkins configuration
 		
-			rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server //Defining where the build artifacts should be deployed to
+			rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local' //Defining where the build artifacts should be deployed to
 			
-			rtMaven.resolver releaseRepo:'libs-release', snapshotRepo: 'libs-snapshot', server: server //Defining where Maven Build should download its dependencies from
+			rtMaven.resolver releaseRepo:'libs-release', snapshotRepo: 'libs-snapshot' //Defining where Maven Build should download its dependencies from
 			
 			rtMaven.deployer.artifactDeploymentPatterns.addExclude("pom.xml") //Exclude artifacts from being deployed
 			
