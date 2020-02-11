@@ -25,21 +25,21 @@ pipeline {
             }
         }
 	    
-	     // stage('SonarQube Analysis') {
+	     stage('SonarQube Analysis') {
         
-      //  withSonarQubeEnv('sonar7.5') { 
-       //  bat "${mvnHome}/bin/mvn sonar:sonar"
-      //  }
-  // }
+      withSonarQubeEnv('sonar7.5') { 
+         bat "${mvnHome}/bin/mvn sonar:sonar"
+        }
+  }
 	  
-     	stage('SonarQube analysis') {
-	     steps {
+     	//stage('SonarQube analysis') {
+	  //   steps {
 		//Prepare SonarQube scanner enviornment
-		withSonarQubeEnv('SonarQube6.3') {
-		   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
-		}
-	      }
-	}	    
+		//withSonarQubeEnv('SonarQube6.3') {
+		//   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+	//	}
+	//      }
+	//}	    
     
 	 //   stage('Quality Gate Status Check'){
         // timeout(time: 1, unit: 'HOURS') {
