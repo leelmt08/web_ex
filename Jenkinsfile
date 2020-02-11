@@ -1,6 +1,6 @@
 // Obtaining an Artifactory server instance defined in Jenkins:
-			
-//def server = Artifactory.server 'artifactory-oss-6.12.1'
+			//artifactory-oss-6.12.1
+def server = Artifactory.server 'artifactory-oss-6.12.1'
 
 		 //If artifactory is not defined in Jenkins, then create on:
 		// def server = Artifactory.newServer url: 'Artifactory url', username: 'username', password: 'password'
