@@ -110,7 +110,7 @@ def server = Artifactory.server 'artifactory-oss-6.12.1'
 		steps {
 		  script {
 
-		server.publishBuildInfo buildInfo
+	server.publishBuildInfo buildInfo
 		}
 		}
 	}
